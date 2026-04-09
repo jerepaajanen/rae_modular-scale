@@ -24,7 +24,7 @@ export function PreviewArea() {
             role="tab"
             aria-selected={params.view === "scale"}
             onClick={() => setParams({ view: "scale" })}
-            className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors ${
+            className={`px-4 py-1.5 text-sm font-medium rounded-full transition-colors ${
               params.view === "scale"
                 ? "bg-zinc-100 text-zinc-900"
                 : "text-zinc-400 hover:text-zinc-600"
@@ -36,7 +36,7 @@ export function PreviewArea() {
             role="tab"
             aria-selected={params.view === "specimen"}
             onClick={() => setParams({ view: "specimen" })}
-            className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors ${
+            className={`px-4 py-1.5 text-sm font-medium rounded-full transition-colors ${
               params.view === "specimen"
                 ? "bg-zinc-100 text-zinc-900"
                 : "text-zinc-400 hover:text-zinc-600"
@@ -53,7 +53,7 @@ export function PreviewArea() {
       </div>
 
       {/* Content area */}
-      <div className="flex-1 overflow-y-auto pb-12">
+      <div className="flex-1 overflow-y-auto scrollbar-none" style={{ paddingBottom: "calc(var(--drawer-height) + 1rem)" }}>
         <div className="p-7">
           {params.view === "scale" ? (
             <ScaleView

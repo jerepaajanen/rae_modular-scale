@@ -58,7 +58,7 @@ export function Sidebar() {
   }
 
   return (
-    <aside className="w-full lg:w-85 shrink-0 bg-zinc-50 border-b lg:border-b-0 lg:border-r border-zinc-100 p-6 lg:p-8 flex flex-col gap-7 overflow-y-auto">
+    <aside className="w-full lg:w-85 shrink-0 bg-zinc-50 border-b lg:border-b-0 lg:border-r border-zinc-100 p-6 lg:p-8 flex flex-col gap-7 overflow-y-auto scrollbar-none" style={{ paddingBottom: "calc(var(--drawer-height) + .5rem)" }}>
       <ControlGroup
         label="Base Size"
         hint="The foundation of your scale. Add a second base to create a richer set of sizes."
@@ -127,6 +127,19 @@ export function Sidebar() {
       >
         Reset to defaults
       </button>
+
+      {/* Spacer pushes credit to bottom */}
+      <div className="flex-1" />
+
+      {/* RAE credit */}
+      <a
+        href="https://rae.fi"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-1.5 text-[10px] text-zinc-300 hover:text-zinc-400 transition-colors self-start"
+      >
+        Built by <img src="/assets/logo.svg" alt="RAE" className="h-3.5 w-auto" />
+      </a>
     </aside>
   )
 }

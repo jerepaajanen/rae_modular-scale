@@ -4,6 +4,15 @@ import { useState, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Link, Code } from "lucide-react"
 
+function RaeMark() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 1080 1080" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+      <rect width="1080" height="1080" rx="108" fill="#00341C"/>
+      <path d="M737.89 571.717C708.847 561.219 679.864 550.539 650.833 539.997C679.864 529.456 708.847 518.776 737.89 508.278C799.9 485.488 861.819 462.44 923.445 438.617L909.803 396.637C893.82 400.838 877.873 405.163 861.942 409.519C814.109 422.444 766.406 435.853 718.739 449.349C689.071 457.93 659.347 466.321 629.663 474.859C646.952 449.266 664.123 423.589 681.448 398.027C718.217 343.141 754.768 288.101 790.622 232.605L754.91 206.659C744.448 219.454 734.092 232.324 723.761 245.214C692.663 283.784 661.949 322.672 631.318 361.607C612.365 385.98 593.254 410.24 574.258 434.586C571.379 337.684 566.98 240.814 562.073 143.999H517.931C516.113 176.994 514.549 209.997 513.056 243C510.498 306.519 507.75 370.049 505.75 433.592C504.843 462.444 476.893 482.593 449.185 474.495C356.512 447.412 263.404 421.783 170.197 396.637L156.555 438.621C187.372 450.545 218.276 462.231 249.204 473.849C309.115 496.017 368.975 518.38 429.084 540.017C337.837 572.695 247.089 606.803 156.555 641.378L170.197 683.362C202.139 674.896 234.009 666.183 265.86 657.404C327.363 640.127 388.929 623.027 450.282 605.207C395.669 685.275 342.3 766.21 289.378 847.398L325.09 873.344C345.955 847.719 366.618 821.939 387.222 796.116C426.827 745.982 466.589 695.959 505.75 645.473C506.803 676.317 508.007 707.158 509.013 737.998C511.523 804.016 514.307 870.026 517.923 935.999H562.065C563.008 919.498 563.823 903.001 564.604 886.499C567.09 837.015 569.082 787.503 570.975 737.998C571.973 707.439 573.165 676.883 574.215 646.32C575.201 617.59 602.913 597.457 630.538 605.397C659.925 613.844 689.356 622.152 718.728 630.646C782.29 648.656 845.931 666.409 909.791 683.358L923.433 641.378C908.032 635.382 892.592 629.51 877.14 623.669C830.844 606.011 784.373 588.821 737.878 571.717H737.89Z" fill="#F8F7F3"/>
+    </svg>
+  )
+}
+
 export function TopBar() {
   const [copied, setCopied] = useState(false)
 
@@ -33,21 +42,27 @@ export function TopBar() {
 
   return (
     <header className="flex items-center justify-between px-7 py-4 border-b border-zinc-100 bg-white">
-      <div className="flex items-baseline gap-2">
-        <span className="text-[15px] font-bold tracking-tight text-zinc-900">
-          RAE Scale
-        </span>
-        <span className="text-[13px] text-zinc-300 font-light">/</span>
-        <span className="text-[13px] tracking-tight text-zinc-400">
-          modular type scale
+      <div className="flex items-center gap-2.5">
+        <RaeMark />
+        <span className="text-[15px] font-medium tracking-[0.02em] text-zinc-900">
+          Modular Scale
         </span>
       </div>
       <div className="flex items-center gap-2.5">
-        <Button variant="outline" size="sm" onClick={handleShare}>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleShare}
+          className="rounded-full"
+        >
           <Link data-icon="inline-start" />
           {copied ? "Copied!" : "Share"}
         </Button>
-        <Button size="sm" onClick={handleExport}>
+        <Button
+          size="sm"
+          onClick={handleExport}
+          className="rounded-full bg-[#00341C] hover:bg-[#00341C]/85"
+        >
           <Code data-icon="inline-start" />
           Export
         </Button>

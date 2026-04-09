@@ -13,7 +13,7 @@ interface ScaleViewProps {
 function CopyFeedback({ show }: { show: boolean }) {
   if (!show) return null
   return (
-    <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-zinc-500 bg-white border border-zinc-200 rounded px-1.5 py-0.5 shadow-sm whitespace-nowrap">
+    <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-zinc-500 bg-white border border-zinc-200 rounded-full px-2 py-0.5 shadow-sm whitespace-nowrap">
       Copied!
     </span>
   )

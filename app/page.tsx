@@ -9,7 +9,7 @@ export default function Home() {
     <div className="h-screen flex flex-col">
       <TopBar />
       <Suspense>
-        <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
+        <div className="flex-1 flex flex-col lg:flex-row lg:overflow-hidden">
           <Sidebar />
           <PreviewArea />
         </div>

@@ -32,7 +32,7 @@ export function FontPicker({ value, onChange }: FontPickerProps) {
     <div className="flex items-center gap-2.5">
       <span className="text-xs text-zinc-400">Preview font</span>
       <Popover open={open} onOpenChange={handleOpenChange}>
-        <PopoverTrigger className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-200 bg-white text-[13px] text-zinc-600 hover:border-zinc-300 transition-colors">
+        <PopoverTrigger className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-zinc-200 bg-white text-[13px] text-zinc-600 hover:border-zinc-300 transition-colors">
           {value}
           <ChevronDown className="h-3 w-3 text-zinc-400" />
         </PopoverTrigger>

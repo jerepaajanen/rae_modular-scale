@@ -57,7 +57,6 @@ export function ExportPanel() {
 
   return (
     <>
-      {/* Backdrop */}
       {open && (
         <div
           className="fixed inset-0 bg-black/10 z-40 transition-opacity"
@@ -65,24 +64,21 @@ export function ExportPanel() {
         />
       )}
 
-      {/* Fixed bottom drawer */}
       <div
         id="export-panel"
         className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-zinc-200 shadow-[0_-4px_24px_rgba(0,0,0,0.06)] transition-transform duration-200 ease-out"
-        style={{ transform: open ? "translateY(0)" : "translateY(calc(100% - 44px))" }}
+        style={{ transform: open ? "translateY(0)" : "translateY(calc(100% - var(--drawer-height)))" }}
       >
-        {/* Toggle header — always visible */}
         <button
           onClick={() => setOpen(!open)}
           className="w-full flex items-center justify-between px-7 py-2.5 hover:bg-zinc-50/80 transition-colors"
-          style={{ height: "44px" }}
+          style={{ height: "var(--drawer-height)" }}
         >
           <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-zinc-400">
             Code Output
           </span>
 
           <div className="flex items-center gap-3">
-            {/* Format pills */}
             <div className="flex gap-1" role="tablist">
               {formats.map((format) => {
                 const isActive = activeFormat === format
@@ -96,7 +92,7 @@ export function ExportPanel() {
                       setActiveFormat(format)
                       if (!open) setOpen(true)
                     }}
-                    className={`px-3 py-1 text-xs font-medium rounded-md transition-colors cursor-pointer ${
+                    className={`px-3 py-1 text-xs font-medium rounded-full transition-colors cursor-pointer ${
                       isActive
                         ? "bg-zinc-100 text-zinc-900"
                         : "text-zinc-400 hover:text-zinc-600"
@@ -116,11 +112,10 @@ export function ExportPanel() {
           </div>
         </button>
 
-        {/* Code area */}
         <div className="relative px-7 pb-5 pt-1" style={{ maxHeight: "50vh", overflowY: "auto" }}>
           <button
             onClick={handleCopy}
-            className="absolute right-9 top-3 z-10 flex items-center gap-1 rounded-md border border-zinc-200 bg-white px-2 py-1 text-xs text-zinc-400 transition-colors hover:text-zinc-700 hover:border-zinc-300"
+            className="absolute right-9 top-3 z-10 flex items-center gap-1 rounded-full border border-zinc-200 bg-white px-2 py-1 text-xs text-zinc-400 transition-colors hover:text-zinc-700 hover:border-zinc-300"
           >
             {copied ? (
               <>
