@@ -1,0 +1,114 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: RAE Scale
+        - generic [ref=e6]: / modular type scale
+      - generic [ref=e7]:
+        - button "Share" [ref=e8]:
+          - img
+          - text: Share
+        - button "Export" [ref=e9]:
+          - img
+          - text: Export
+    - generic [ref=e10]:
+      - complementary [ref=e11]:
+        - generic [ref=e12]:
+          - generic [ref=e13]: Base Size
+          - generic [ref=e14]:
+            - generic [ref=e15]:
+              - spinbutton [ref=e16]: "16"
+              - generic [ref=e17]: px
+            - generic [ref=e18]:
+              - generic [ref=e19]: Second base
+              - switch "Second base" [checked] [ref=e20]
+              - checkbox [checked] [ref=e21]
+            - generic [ref=e158]:
+              - spinbutton [ref=e159]: "24"
+              - generic [ref=e160]: px
+        - separator [ref=e22]
+        - generic [ref=e23]:
+          - generic [ref=e24]: Ratio
+          - button "Perfect Fourth — 1.333" [ref=e25]:
+            - generic [ref=e26]: Perfect Fourth — 1.333
+            - img [ref=e27]
+        - separator [ref=e29]
+        - generic [ref=e30]:
+          - generic [ref=e31]: Steps
+          - generic [ref=e32]:
+            - spinbutton [ref=e33]: "2"
+            - generic [ref=e34]: negative
+            - spinbutton [ref=e35]: "10"
+            - generic [ref=e36]: positive
+        - separator [ref=e37]
+        - generic [ref=e38]:
+          - generic [ref=e39]: Rounding
+          - generic [ref=e40]:
+            - button "1px(0.0625rem)" [ref=e41]:
+              - text: 1px
+              - generic [ref=e42]: (0.0625rem)
+            - button "2px(0.125rem)" [ref=e43]:
+              - text: 2px
+              - generic [ref=e44]: (0.125rem)
+            - button "None" [ref=e45]
+        - separator [ref=e46]
+        - generic [ref=e47]:
+          - generic [ref=e48]: Export Prefix
+          - generic [ref=e49]:
+            - generic [ref=e50]: "--"
+            - textbox "step" [ref=e51]
+            - generic [ref=e52]: "-"
+      - generic [ref=e53]:
+        - generic [ref=e54]:
+          - generic [ref=e55]:
+            - button "Scale" [ref=e56]
+            - button "Specimen" [active] [ref=e57]
+          - generic [ref=e58]:
+            - generic [ref=e59]: Preview font
+            - button "Inter" [ref=e60]:
+              - text: Inter
+              - img [ref=e61]
+        - generic [ref=e63]:
+          - generic [ref=e232]:
+            - generic [ref=e233]:
+              - paragraph [ref=e234]: Typography sets the tone
+              - generic [ref=e235]: Step 22 — 425px / 26.5625rem
+            - generic [ref=e236]:
+              - heading "A modular scale brings harmony" [level=1] [ref=e237]
+              - generic [ref=e238]: Step 6 — 38px / 2.375rem
+            - generic [ref=e239]:
+              - paragraph [ref=e240]: A modular scale is a sequence of numbers that relate to one another through a consistent ratio. When applied to typography, it creates a natural visual rhythm that guides the reader through the content. Proportional sizing feels intentional, not arbitrary.
+              - generic [ref=e241]: Step 0 — 16px / 1rem
+            - generic [ref=e242]:
+              - heading "Subheadings create structure" [level=2] [ref=e243]
+              - generic [ref=e244]: Step 4 — 28px / 1.75rem
+            - generic [ref=e245]:
+              - paragraph [ref=e246]: Each level of your type hierarchy serves a purpose. Headings signal importance and break content into digestible sections, while body text maintains comfortable readability at its base size.
+              - generic [ref=e247]: Step 0 — 16px / 1rem
+            - generic [ref=e248]:
+              - heading "Details matter at every level" [level=3] [ref=e249]
+              - generic [ref=e250]: Step 2 — 21px / 1.3125rem
+            - generic [ref=e251]:
+              - paragraph [ref=e252]: Captions and labels use smaller sizes from the scale to maintain hierarchy without competing with primary content.
+              - generic [ref=e253]: Step -1 — 14px / 0.875rem
+            - generic [ref=e254]:
+              - paragraph [ref=e255]: Fine print, footnotes, and metadata sit at the smallest end of the scale.
+              - generic [ref=e256]: Step -2 — 12px / 0.75rem
+          - generic [ref=e133]:
+            - generic [ref=e134]:
+              - generic [ref=e135]: Code Output
+              - generic [ref=e136]:
+                - button "CSS" [ref=e137]
+                - button "SCSS" [ref=e138]
+                - button "Tailwind" [ref=e139]
+                - button "JSON" [ref=e140]
+            - generic [ref=e141]:
+              - button "Copy" [ref=e142]:
+                - img [ref=e143]
+                - text: Copy
+              - code [ref=e147]:
+                - generic [ref=e257]: /* RAE Modular Scale — 16, 24px @ 1.333 */
+                - text: ":root { --step--3: 0.5625rem; /* 9px */ --step--2: 0.75rem; /* 12px */ --step--1: 0.875rem; /* 14px */ --step-0: 1rem; /* 16px */ --step-1: 1.125rem; /* 18px */ --step-2: 1.3125rem; /* 21px */ --step-3: 1.5rem; /* 24px */ --step-4: 1.75rem; /* 28px */ --step-5: 2rem; /* 32px */ --step-6: 2.375rem; /* 38px */ --step-7: 2.6875rem; /* 43px */ --step-8: 3.1875rem; /* 51px */ --step-9: 3.5625rem; /* 57px */ --step-10: 4.1875rem; /* 67px */ --step-11: 4.75rem; /* 76px */ --step-12: 5.625rem; /* 90px */ --step-13: 6.3125rem; /* 101px */ --step-14: 7.5rem; /* 120px */ --step-15: 8.4375rem; /* 135px */ --step-16: 10rem; /* 160px */ --step-17: 11.1875rem; /* 179px */ --step-18: 13.3125rem; /* 213px */ --step-19: 14.9375rem; /* 239px */ --step-20: 17.6875rem; /* 283px */ --step-21: 19.9375rem; /* 319px */ --step-22: 26.5625rem; /* 425px */ }"
+  - button "Open Next.js Dev Tools" [ref=e154] [cursor=pointer]:
+    - img [ref=e155]
+  - alert [ref=e148]
