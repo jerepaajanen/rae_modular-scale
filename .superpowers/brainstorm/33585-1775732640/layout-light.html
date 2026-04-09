@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAE Modular Scale — Layout Mockup (Light)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: #fafafa;
+    color: #09090b;
+    min-height: 100vh;
+    padding: 24px;
+  }
+
+  h2 { font-size: 20px; font-weight: 600; margin-bottom: 6px; color: #09090b; }
+  .subtitle { font-size: 14px; color: #71717a; margin-bottom: 24px; }
+
+  .mockup-frame {
+    border: 1px solid #e4e4e7;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+  }
+
+  /* Top bar */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-bottom: 1px solid #e4e4e7;
+    background: #ffffff;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 12px; }
+  .logo { font-size: 15px; font-weight: 700; letter-spacing: -0.02em; color: #09090b; }
+  .logo span { color: #a1a1aa; font-weight: 400; }
+  .topbar-right { display: flex; gap: 8px; }
+  .topbar-btn {
+    padding: 6px 12px; border-radius: 6px; font-size: 12px;
+    border: 1px solid #e4e4e7; background: #ffffff; color: #52525b; cursor: pointer;
+  }
+  .topbar-btn:hover { background: #f4f4f5; }
+  .topbar-btn.primary { background: #18181b; color: #fafafa; border-color: #18181b; font-weight: 500; }
+
+  /* Main layout */
+  .main { display: grid; grid-template-columns: 320px 1fr; min-height: 600px; }
+
+  /* Left sidebar — controls */
+  .sidebar {
+    padding: 24px 20px;
+    border-right: 1px solid #e4e4e7;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+    background: #fafafa;
+  }
+
+  .control-group { display: flex; flex-direction: column; gap: 8px; }
+  .control-label {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.05em; color: #a1a1aa;
+  }
+  .control-row { display: flex; gap: 8px; align-items: center; }
+
+  .input-mock {
+    background: #ffffff; border: 1px solid #e4e4e7; border-radius: 6px;
+    padding: 8px 12px; color: #09090b; font-size: 14px; font-family: 'SF Mono', 'Fira Code', monospace;
+    flex: 1; min-width: 0;
+  }
+  .input-sm { width: 70px; flex: none; text-align: center; }
+  .input-unit { font-size: 12px; color: #a1a1aa; flex: none; }
+
+  .select-mock {
+    background: #ffffff; border: 1px solid #e4e4e7; border-radius: 6px;
+    padding: 8px 12px; color: #09090b; font-size: 14px; width: 100%;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .select-mock .chevron { color: #a1a1aa; font-size: 10px; }
+
+  .toggle-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 4px 0;
+  }
+  .toggle-label { font-size: 13px; color: #52525b; }
+  .toggle {
+    width: 36px; height: 20px; border-radius: 10px; background: #d4d4d8;
+    position: relative; cursor: pointer;
+  }
+  .toggle.on { background: #18181b; }
+  .toggle .dot {
+    width: 16px; height: 16px; border-radius: 50%; background: #ffffff;
+    position: absolute; top: 2px; left: 2px; transition: left 0.15s;
+  }
+  .toggle.on .dot { left: 18px; }
+
+  .chip-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip {
+    padding: 4px 10px; border-radius: 4px; font-size: 12px;
+    border: 1px solid #e4e4e7; color: #71717a; cursor: pointer; background: #ffffff;
+  }
+  .chip.active { border-color: #18181b; color: #09090b; background: #f4f4f5; }
+
+  .divider { border-top: 1px solid #e4e4e7; margin: 4px 0; }
+
+  /* Right — preview area */
+  .preview {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+  }
+
+  .preview-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-bottom: 1px solid #e4e4e7;
+  }
+  .tab-row { display: flex; gap: 0; }
+  .tab {
+    padding: 6px 14px; font-size: 13px; color: #a1a1aa; cursor: pointer;
+    border-bottom: 2px solid transparent;
+  }
+  .tab.active { color: #09090b; border-bottom-color: #18181b; }
+
+  .font-select { display: flex; align-items: center; gap: 8px; }
+  .font-select-label { font-size: 12px; color: #a1a1aa; }
+  .font-select-value {
+    background: #ffffff; border: 1px solid #e4e4e7; border-radius: 6px;
+    padding: 5px 10px; font-size: 13px; color: #52525b;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* Scale ladder */
+  .scale-ladder {
+    flex: 1;
+    padding: 24px 20px;
+    overflow-y: auto;
+  }
+
+  .scale-row {
+    display: grid;
+    grid-template-columns: 50px 80px 80px 1fr;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px solid #f4f4f5;
+    gap: 12px;
+  }
+  .scale-row.base {
+    background: #f9fafb;
+    border-radius: 6px;
+    padding: 8px;
+    margin: 0 -8px;
+    border-bottom: 1px solid #e4e4e7;
+  }
+
+  .step-num { font-size: 12px; color: #a1a1aa; font-family: 'SF Mono', monospace; }
+  .step-num.base-marker { color: #09090b; font-weight: 600; }
+  .px-val { font-size: 12px; color: #71717a; font-family: 'SF Mono', monospace; }
+  .rem-val { font-size: 12px; color: #52525b; font-family: 'SF Mono', monospace; }
+  .sample-text { color: #18181b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .strand-a { border-left: 2px solid #3b82f6; padding-left: 8px; }
+  .strand-b { border-left: 2px solid #a855f7; padding-left: 8px; }
+
+  /* Export panel */
+  .export-panel {
+    border-top: 1px solid #e4e4e7;
+    background: #fafafa;
+  }
+  .export-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 20px; cursor: pointer;
+  }
+  .export-title { font-size: 13px; font-weight: 500; color: #52525b; }
+  .export-tabs { display: flex; gap: 0; }
+  .export-tab {
+    padding: 4px 10px; font-size: 12px; color: #a1a1aa; cursor: pointer;
+    border: 1px solid #e4e4e7; background: #ffffff;
+  }
+  .export-tab:first-child { border-radius: 4px 0 0 4px; }
+  .export-tab:last-child { border-radius: 0 4px 4px 0; }
+  .export-tab + .export-tab { border-left: none; }
+  .export-tab.active { color: #09090b; background: #f4f4f5; font-weight: 500; }
+
+  .code-block {
+    padding: 16px 20px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #52525b;
+    max-height: 160px;
+    overflow-y: auto;
+    background: #ffffff;
+    margin: 0 12px 12px;
+    border-radius: 8px;
+    border: 1px solid #e4e4e7;
+  }
+  .code-comment { color: #a1a1aa; }
+  .code-prop { color: #2563eb; }
+  .code-value { color: #c026d3; }
+
+  /* Legend */
+  .legend {
+    display: flex; gap: 16px; align-items: center;
+    padding: 0 0;
+    margin-bottom: 12px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #71717a; }
+  .legend-dot { width: 8px; height: 2px; border-radius: 1px; }
+  .legend-dot.a { background: #3b82f6; }
+  .legend-dot.b { background: #a855f7; }
+
+  .note { color:#a1a1aa; font-size:13px; margin-top:16px; }
+</style>
+</head>
+<body>
+<h2>Layout Mockup — Light Theme</h2>
+<p class="subtitle">Clean, airy light UI with v0-inspired structure. Controls left, preview right, export bottom.</p>
+
+<div class="mockup-frame">
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="logo">RAE Scale <span>/ modular type scale</span></div>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-btn">Share</div>
+      <div class="topbar-btn primary">Export</div>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- Sidebar Controls -->
+    <div class="sidebar">
+      <div class="control-group">
+        <div class="control-label">Base Size</div>
+        <div class="control-row">
+          <div class="input-mock">16</div>
+          <div class="input-unit">px</div>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-label">Second base</div>
+          <div class="toggle on"><div class="dot"></div></div>
+        </div>
+        <div class="control-row">
+          <div class="input-mock">24</div>
+          <div class="input-unit">px</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="control-group">
+        <div class="control-label">Ratio</div>
+        <div class="select-mock">
+          <span>Perfect Fourth — 1.333</span>
+          <span class="chevron">▾</span>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="control-group">
+        <div class="control-label">Steps</div>
+        <div class="control-row">
+          <div class="input-mock input-sm">2</div>
+          <div class="input-unit">negative</div>
+          <div class="input-mock input-sm">10</div>
+          <div class="input-unit">positive</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="control-group">
+        <div class="control-label">Rounding</div>
+        <div class="chip-row">
+          <div class="chip active">1px (0.0625rem)</div>
+          <div class="chip">2px (0.125rem)</div>
+          <div class="chip">None</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="control-group">
+        <div class="control-label">Export Prefix</div>
+        <div class="control-row">
+          <div class="input-mock" style="font-size:13px;">--step-</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preview Area -->
+    <div class="preview">
+      <div class="preview-header">
+        <div class="tab-row">
+          <div class="tab active">Scale</div>
+          <div class="tab">Specimen</div>
+        </div>
+        <div class="font-select">
+          <div class="font-select-label">Preview font</div>
+          <div class="font-select-value">Inter <span class="chevron" style="color:#a1a1aa;font-size:10px;">▾</span></div>
+        </div>
+      </div>
+
+      <div class="scale-ladder">
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot a"></div> Base A (16px)</div>
+          <div class="legend-item"><div class="legend-dot b"></div> Base B (24px)</div>
+        </div>
+
+        <div class="scale-row strand-a">
+          <div class="step-num">-2</div>
+          <div class="px-val">9px</div>
+          <div class="rem-val">0.5625rem</div>
+          <div class="sample-text" style="font-size:9px;">The quick brown fox jumps</div>
+        </div>
+        <div class="scale-row strand-b">
+          <div class="step-num">-1</div>
+          <div class="px-val">14px</div>
+          <div class="rem-val">0.875rem</div>
+          <div class="sample-text" style="font-size:14px;">The quick brown fox jumps</div>
+        </div>
+        <div class="scale-row base strand-a">
+          <div class="step-num base-marker">0 ★</div>
+          <div class="px-val">16px</div>
+          <div class="rem-val">1rem</div>
+          <div class="sample-text" style="font-size:16px;">The quick brown fox jumps</div>
+        </div>
+        <div class="scale-row strand-b">
+          <div class="step-num">1</div>
+          <div class="px-val">18px</div>
+          <div class="rem-val">1.125rem</div>
+          <div class="sample-text" style="font-size:18px;">The quick brown fox jumps</div>
+        </div>
+        <div class="scale-row strand-a">
+          <div class="step-num">2</div>
+          <div class="px-val">21px</div>
+          <div class="rem-val">1.3125rem</div>
+          <div class="sample-text" style="font-size:21px;">The quick brown fox jumps</div>
+        </div>
+        <div class="scale-row strand-b">
+          <div class="step-num">3</div>
+          <div class="px-val">24px</div>
+          <div class="rem-val">1.5rem</div>
+          <div class="sample-text" style="font-size:24px;">The quick brown fox jumps</div>
+        </div>
+        <div class="scale-row strand-a">
+          <div class="step-num">4</div>
+          <div class="px-val">28px</div>
+          <div class="rem-val">1.75rem</div>
+          <div class="sample-text" style="font-size:28px;">The quick brown fox</div>
+        </div>
+        <div class="scale-row strand-b">
+          <div class="step-num">5</div>
+          <div class="px-val">32px</div>
+          <div class="rem-val">2rem</div>
+          <div class="sample-text" style="font-size:32px;">The quick brown fox</div>
+        </div>
+        <div class="scale-row strand-a">
+          <div class="step-num">6</div>
+          <div class="px-val">38px</div>
+          <div class="rem-val">2.375rem</div>
+          <div class="sample-text" style="font-size:38px;">The quick brown</div>
+        </div>
+        <div class="scale-row strand-b">
+          <div class="step-num">7</div>
+          <div class="px-val">43px</div>
+          <div class="rem-val">2.6875rem</div>
+          <div class="sample-text" style="font-size:43px;">The quick brown</div>
+        </div>
+        <div class="scale-row strand-a">
+          <div class="step-num">8</div>
+          <div class="px-val">51px</div>
+          <div class="rem-val">3.1875rem</div>
+          <div class="sample-text" style="font-size:48px;">The quick bro</div>
+        </div>
+        <div class="scale-row strand-b">
+          <div class="step-num">9</div>
+          <div class="px-val">57px</div>
+          <div class="rem-val">3.5625rem</div>
+          <div class="sample-text" style="font-size:50px;">The quick br</div>
+        </div>
+      </div>
+
+      <!-- Export Panel -->
+      <div class="export-panel">
+        <div class="export-header">
+          <div class="export-title">Code Output</div>
+          <div class="export-tabs">
+            <div class="export-tab active">CSS</div>
+            <div class="export-tab">SCSS</div>
+            <div class="export-tab">Tailwind</div>
+            <div class="export-tab">JSON</div>
+          </div>
+        </div>
+        <div class="code-block">
+          <div><span class="code-comment">/* RAE Modular Scale — 16px + 24px @ 1.333 */</span></div>
+          <div><span class="code-prop">:root</span> {</div>
+          <div>&nbsp;&nbsp;<span class="code-prop">--step--2</span>: <span class="code-value">0.5625rem</span>; <span class="code-comment">/* 9px */</span></div>
+          <div>&nbsp;&nbsp;<span class="code-prop">--step--1</span>: <span class="code-value">0.875rem</span>; <span class="code-comment">/* 14px */</span></div>
+          <div>&nbsp;&nbsp;<span class="code-prop">--step-0</span>: <span class="code-value">1rem</span>; <span class="code-comment">/* 16px */</span></div>
+          <div>&nbsp;&nbsp;<span class="code-prop">--step-1</span>: <span class="code-value">1.125rem</span>; <span class="code-comment">/* 18px */</span></div>
+          <div>&nbsp;&nbsp;<span class="code-prop">--step-2</span>: <span class="code-value">1.3125rem</span>; <span class="code-comment">/* 21px */</span></div>
+          <div>&nbsp;&nbsp;<span class="code-prop">--step-3</span>: <span class="code-value">1.5rem</span>; <span class="code-comment">/* 24px */</span></div>
+          <div>&nbsp;&nbsp;<span class="code-prop">--step-4</span>: <span class="code-value">1.75rem</span>; <span class="code-comment">/* 28px */</span></div>
+          <div>&nbsp;&nbsp;<span class="code-prop">--step-5</span>: <span class="code-value">2rem</span>; <span class="code-comment">/* 32px */</span></div>
+          <div>&nbsp;&nbsp;<span class="code-comment">/* ... */</span></div>
+          <div>}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="note">Light theme default. We can add a dark/light toggle in the top bar if desired. Structural mockup — final uses shadcn components.</p>
+</body>
+</html>

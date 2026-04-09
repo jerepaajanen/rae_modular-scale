@@ -1,0 +1,129 @@
+<h2>App Architecture — 3 Approaches</h2>
+<p class="subtitle">How should the modular scale tool be structured?</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Single-Page App (Recommended)</h3>
+      <p><strong>Next.js App Router + single route</strong></p>
+      <p>Everything lives on one page — controls on the left/top, preview + export on the right/bottom. URL params sync all state. No routing needed.</p>
+      <div class="pros-cons">
+        <div class="pros">
+          <h4>Pros</h4>
+          <ul>
+            <li>Fastest to build and iterate</li>
+            <li>Instant feedback — tweak a value, see it immediately</li>
+            <li>URL sharing is trivial (one page = one URL)</li>
+            <li>Simple deployment on Vercel</li>
+            <li>Perfect for a focused tool like this</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Cons</h4>
+          <ul>
+            <li>All complexity on one page (manageable for this scope)</li>
+            <li>Mobile layout needs careful thought</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Multi-Page with Tabs</h3>
+      <p><strong>Separate pages: Calculator → Preview → Export</strong></p>
+      <p>Each concern gets its own page/tab. Calculator page for inputs, Preview page for type specimen, Export page for code output.</p>
+      <div class="pros-cons">
+        <div class="pros">
+          <h4>Pros</h4>
+          <ul>
+            <li>Each page is simpler individually</li>
+            <li>More room for elaborate previews</li>
+            <li>Cleaner mobile experience per page</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Cons</h4>
+          <ul>
+            <li>Breaks the instant feedback loop — changing a value means switching back to see it</li>
+            <li>More routing complexity for URL state</li>
+            <li>Unnecessary for this scope</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Dashboard-Style with Panels</h3>
+      <p><strong>Resizable panels: sidebar controls + main preview + bottom export</strong></p>
+      <p>IDE-like layout with draggable panel dividers. Maximum information density.</p>
+      <div class="pros-cons">
+        <div class="pros">
+          <h4>Pros</h4>
+          <ul>
+            <li>Power-user friendly</li>
+            <li>All information visible simultaneously</li>
+            <li>Feels professional and sophisticated</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Cons</h4>
+          <ul>
+            <li>Significantly more complex to build (resizable panels, responsive breakpoints)</li>
+            <li>Intimidating for newcomers</li>
+            <li>Overkill for a focused calculator tool</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 2rem; padding: 1.5rem; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);">
+  <h3 style="margin-top:0;">Shared Architecture (All Approaches)</h3>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; font-size: 14px;">
+    <div>
+      <p class="label">Tech Stack</p>
+      <ul style="margin:0;padding-left:1.2em;">
+        <li>Next.js 15 App Router</li>
+        <li>TypeScript</li>
+        <li>shadcn/ui + Tailwind CSS</li>
+        <li>nuqs for URL state management</li>
+      </ul>
+    </div>
+    <div>
+      <p class="label">Core Engine</p>
+      <ul style="margin:0;padding-left:1.2em;">
+        <li><code>lib/scale.ts</code> — pure math functions</li>
+        <li>Double-strand merge algorithm</li>
+        <li>Rounding to 1px / 2px grid</li>
+        <li>Extractable for Figma plugin later</li>
+      </ul>
+    </div>
+    <div>
+      <p class="label">Features</p>
+      <ul style="margin:0;padding-left:1.2em;">
+        <li>1 or 2 base values (merged sort)</li>
+        <li>Named ratio presets + free input</li>
+        <li>Configurable -N to +N steps</li>
+        <li>Google Fonts picker for preview</li>
+      </ul>
+    </div>
+    <div>
+      <p class="label">Output</p>
+      <ul style="margin:0;padding-left:1.2em;">
+        <li>CSS custom properties</li>
+        <li>SCSS variables + map</li>
+        <li>Tailwind config</li>
+        <li>JSON export</li>
+        <li>Configurable variable prefix</li>
+      </ul>
+    </div>
+  </div>
+</div>
