@@ -13,7 +13,6 @@ export function TopBar() {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch {
-      // Fallback for older browsers or insecure contexts
       const textarea = document.createElement("textarea")
       textarea.value = window.location.href
       textarea.style.position = "fixed"
@@ -28,19 +27,19 @@ export function TopBar() {
   }, [])
 
   const handleExport = useCallback(() => {
-    document
-      .getElementById("export-panel")
-      ?.scrollIntoView({ behavior: "smooth" })
+    const toggle = document.querySelector("#export-panel button")
+    if (toggle instanceof HTMLElement) toggle.click()
   }, [])
 
   return (
     <header className="flex items-center justify-between px-7 py-4 border-b border-zinc-100 bg-white">
-      <div className="flex items-center gap-3">
+      <div className="flex items-baseline gap-2">
         <span className="text-[15px] font-bold tracking-tight text-zinc-900">
           RAE Scale
         </span>
-        <span className="text-[15px] tracking-tight text-zinc-400 font-normal">
-          / modular type scale
+        <span className="text-[13px] text-zinc-300 font-light">/</span>
+        <span className="text-[13px] tracking-tight text-zinc-400">
+          modular type scale
         </span>
       </div>
       <div className="flex items-center gap-2.5">

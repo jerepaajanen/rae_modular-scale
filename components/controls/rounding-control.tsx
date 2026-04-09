@@ -20,8 +20,8 @@ export function RoundingControl({ value, onChange }: RoundingControlProps) {
           onClick={() => onChange(opt.value)}
           className={`px-3 py-1.5 rounded-md border text-xs transition-colors ${
             value === opt.value
-              ? "border-zinc-900 text-zinc-900 bg-zinc-100"
-              : "border-zinc-200 text-zinc-400 bg-white hover:border-zinc-300"
+              ? "border-zinc-900 text-zinc-900 bg-zinc-900/5 shadow-sm"
+              : "border-zinc-200 text-zinc-400 bg-white hover:border-zinc-300 hover:text-zinc-500"
           }`}
         >
           {opt.label}

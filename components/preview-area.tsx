@@ -5,7 +5,6 @@ import { useScaleConfig } from "@/hooks/use-scale-config"
 import { ScaleView } from "@/components/preview/scale-view"
 import { SpecimenView } from "@/components/preview/specimen-view"
 import { FontPicker } from "@/components/preview/font-picker"
-import { ExportPanel } from "@/components/export/export-panel"
 import { loadGoogleFont } from "@/lib/fonts"
 
 export function PreviewArea() {
@@ -43,7 +42,7 @@ export function PreviewArea() {
                 : "text-zinc-400 hover:text-zinc-600"
             }`}
           >
-            Specimen
+            Preview
           </button>
         </div>
 
@@ -54,7 +53,7 @@ export function PreviewArea() {
       </div>
 
       {/* Content area */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto pb-12">
         <div className="p-7">
           {params.view === "scale" ? (
             <ScaleView
@@ -65,10 +64,6 @@ export function PreviewArea() {
           ) : (
             <SpecimenView entries={entries} font={params.font} />
           )}
-        </div>
-
-        <div id="export-panel">
-          <ExportPanel />
         </div>
       </div>
     </div>

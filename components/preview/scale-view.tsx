@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import type { ScaleEntry } from "@/lib/scale"
 import { parseBaseParam } from "@/lib/search-params"
 
@@ -9,9 +10,26 @@ interface ScaleViewProps {
   font: string
 }
 
+function CopyFeedback({ show }: { show: boolean }) {
+  if (!show) return null
+  return (
+    <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-zinc-500 bg-white border border-zinc-200 rounded px-1.5 py-0.5 shadow-sm whitespace-nowrap">
+      Copied!
+    </span>
+  )
+}
+
 export function ScaleView({ entries, baseParam, font }: ScaleViewProps) {
   const bases = parseBaseParam(baseParam)
   const isDualBase = bases.length > 1
+  const [copiedStep, setCopiedStep] = useState<number | null>(null)
+
+  function handleRowClick(entry: ScaleEntry) {
+    const text = `${entry.rem}rem /* ${entry.px}px */`
+    navigator.clipboard.writeText(text).catch(() => {})
+    setCopiedStep(entry.step)
+    setTimeout(() => setCopiedStep(null), 1200)
+  }
 
   return (
     <div className="flex flex-col gap-5">
@@ -31,6 +49,7 @@ export function ScaleView({ entries, baseParam, font }: ScaleViewProps) {
       <div className="flex flex-col">
         {entries.map((entry) => {
           const isBase = entry.step === 0
+          const isCopied = copiedStep === entry.step
           const strandClass = isDualBase
             ? entry.strand === "b"
               ? "border-l-2 border-l-strand-b pl-3"
@@ -39,13 +58,13 @@ export function ScaleView({ entries, baseParam, font }: ScaleViewProps) {
                 : "border-l-2 border-l-strand-a pl-3"
             : ""
 
-          // Cap display font size at 120px for usability
           const displaySize = Math.min(entry.px, 120)
 
           return (
             <div
               key={entry.step}
-              className={`grid items-baseline gap-4 py-3 border-b border-zinc-50 ${strandClass} ${
+              onClick={() => handleRowClick(entry)}
+              className={`group relative grid items-baseline gap-4 py-3 cursor-pointer transition-colors border-b border-zinc-100/60 hover:bg-zinc-50/50 ${strandClass} ${
                 isBase
                   ? "bg-zinc-50 rounded-lg px-3 -mx-3 border-b-zinc-100"
                   : ""
@@ -53,7 +72,9 @@ export function ScaleView({ entries, baseParam, font }: ScaleViewProps) {
               style={{
                 gridTemplateColumns: "48px 76px 90px 1fr",
               }}
+              title="Click to copy value"
             >
+              <CopyFeedback show={isCopied} />
               <span
                 className={`text-xs font-mono ${
                   isBase

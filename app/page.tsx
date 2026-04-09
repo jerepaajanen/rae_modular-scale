@@ -2,6 +2,7 @@ import { Suspense } from "react"
 import { TopBar } from "@/components/top-bar"
 import { Sidebar } from "@/components/sidebar"
 import { PreviewArea } from "@/components/preview-area"
+import { ExportPanel } from "@/components/export/export-panel"
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
           <Sidebar />
           <PreviewArea />
         </div>
+        <ExportPanel />
       </Suspense>
     </div>
   )
