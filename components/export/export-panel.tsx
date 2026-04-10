@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { Copy, Check, ChevronUp } from "lucide-react"
 import { useScaleConfig } from "@/hooks/use-scale-config"
 import { formatCSS, formatSCSS, formatTailwind, formatJSON } from "@/lib/export"
@@ -16,11 +16,16 @@ const languageMap: Record<Format, "css" | "scss" | "javascript" | "json"> = {
   JSON: "json",
 }
 
-export function ExportPanel() {
+interface ExportPanelProps {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}
+
+export function ExportPanel({ open, onOpenChange }: ExportPanelProps) {
   const { params, config, entries } = useScaleConfig()
   const [activeFormat, setActiveFormat] = useState<Format>("CSS")
   const [copied, setCopied] = useState(false)
-  const [open, setOpen] = useState(false)
+  const copyTimeout = useRef<ReturnType<typeof setTimeout>>(null)
 
   function getFormattedCode(): string {
     switch (activeFormat) {
@@ -38,9 +43,10 @@ export function ExportPanel() {
   const code = getFormattedCode()
 
   function handleCopy() {
+    if (copyTimeout.current) clearTimeout(copyTimeout.current)
     navigator.clipboard.writeText(code).then(() => {
       setCopied(true)
-      setTimeout(() => setCopied(false), 1500)
+      copyTimeout.current = setTimeout(() => setCopied(false), 1500)
     }).catch(() => {
       const textarea = document.createElement("textarea")
       textarea.value = code
@@ -51,7 +57,7 @@ export function ExportPanel() {
       document.execCommand("copy")
       document.body.removeChild(textarea)
       setCopied(true)
-      setTimeout(() => setCopied(false), 1500)
+      copyTimeout.current = setTimeout(() => setCopied(false), 1500)
     })
   }
 
@@ -60,7 +66,7 @@ export function ExportPanel() {
       {open && (
         <div
           className="fixed inset-0 bg-black/10 z-40 transition-opacity"
-          onClick={() => setOpen(false)}
+          onClick={() => onOpenChange(false)}
         />
       )}
 
@@ -69,9 +75,12 @@ export function ExportPanel() {
         className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-zinc-200 shadow-[0_-4px_24px_rgba(0,0,0,0.06)] transition-transform duration-200 ease-out"
         style={{ transform: open ? "translateY(0)" : "translateY(calc(100% - var(--drawer-height)))" }}
       >
-        <button
-          onClick={() => setOpen(!open)}
-          className="w-full flex items-center justify-between px-7 py-2.5 hover:bg-zinc-50/80 transition-colors"
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={() => onOpenChange(!open)}
+          onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpenChange(!open) } }}
+          className="w-full flex items-center justify-between px-7 py-2.5 hover:bg-zinc-50/80 transition-colors cursor-pointer"
           style={{ height: "var(--drawer-height)" }}
         >
           <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-zinc-400">
@@ -83,23 +92,23 @@ export function ExportPanel() {
               {formats.map((format) => {
                 const isActive = activeFormat === format
                 return (
-                  <span
+                  <button
                     key={format}
                     role="tab"
                     aria-selected={isActive}
                     onClick={(e) => {
                       e.stopPropagation()
                       setActiveFormat(format)
-                      if (!open) setOpen(true)
+                      if (!open) onOpenChange(true)
                     }}
-                    className={`px-3 py-1 text-xs font-medium rounded-full transition-colors cursor-pointer ${
+                    className={`px-3 py-1 text-xs font-medium rounded-full transition-colors ${
                       isActive
                         ? "bg-zinc-100 text-zinc-900"
                         : "text-zinc-400 hover:text-zinc-600"
                     }`}
                   >
                     {format}
-                  </span>
+                  </button>
                 )
               })}
             </div>
@@ -110,7 +119,7 @@ export function ExportPanel() {
               }`}
             />
           </div>
-        </button>
+        </div>
 
         <div className="relative px-7 pb-5 pt-1" style={{ maxHeight: "50vh", overflowY: "auto" }}>
           <button

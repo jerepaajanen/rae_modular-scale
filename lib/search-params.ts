@@ -49,7 +49,7 @@ export function configFromParams(params: {
   const ratio = Math.min(4.0, Math.max(1.01, params.ratio))
   const negativeSteps = Math.min(10, Math.max(0, params.neg))
   const positiveSteps = Math.min(20, Math.max(1, params.pos))
-  const rounding = Math.min(2, Math.max(0, params.round)) as 0 | 1 | 2
+  const rounding = Math.round(Math.min(2, Math.max(0, params.round))) as 0 | 1 | 2
 
   return {
     bases,

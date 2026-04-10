@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Link, Code } from "lucide-react"
 
@@ -13,14 +13,20 @@ function RaeMark() {
   )
 }
 
-export function TopBar() {
+interface TopBarProps {
+  onExportToggle: () => void
+}
+
+export function TopBar({ onExportToggle }: TopBarProps) {
   const [copied, setCopied] = useState(false)
+  const copyTimeout = useRef<ReturnType<typeof setTimeout>>(null)
 
   const handleShare = useCallback(async () => {
+    if (copyTimeout.current) clearTimeout(copyTimeout.current)
     try {
       await navigator.clipboard.writeText(window.location.href)
       setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      copyTimeout.current = setTimeout(() => setCopied(false), 2000)
     } catch {
       const textarea = document.createElement("textarea")
       textarea.value = window.location.href
@@ -31,14 +37,13 @@ export function TopBar() {
       document.execCommand("copy")
       document.body.removeChild(textarea)
       setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      copyTimeout.current = setTimeout(() => setCopied(false), 2000)
     }
   }, [])
 
   const handleExport = useCallback(() => {
-    const toggle = document.querySelector("#export-panel button")
-    if (toggle instanceof HTMLElement) toggle.click()
-  }, [])
+    onExportToggle()
+  }, [onExportToggle])
 
   return (
     <header className="flex items-center justify-between px-7 py-4 border-b border-zinc-100 bg-white">

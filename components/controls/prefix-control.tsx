@@ -14,7 +14,7 @@ export function PrefixControl({ value, onChange }: PrefixControlProps) {
       <Input
         type="text"
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChange(e.target.value.replace(/[^a-zA-Z0-9_-]/g, ""))}
         placeholder="step"
         className="font-mono text-[13px]"
       />

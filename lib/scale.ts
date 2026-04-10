@@ -20,7 +20,7 @@ export type ScaleConfig = {
  * grid=2: round to nearest 2px
  */
 export function roundToGrid(px: number, grid: 0 | 1 | 2): number {
-  if (grid === 0) return px
+  if (grid === 0) return Math.round(px * 10000) / 10000 // 4 decimal precision
   if (grid === 1) return Math.round(px)
   return Math.round(px / 2) * 2
 }

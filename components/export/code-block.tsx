@@ -5,72 +5,65 @@ interface CodeBlockProps {
   language: "css" | "scss" | "javascript" | "json"
 }
 
-function highlight(code: string, language: CodeBlockProps["language"]): string {
-  let html = code
+function escapeHtml(str: string): string {
+  return str
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
+}
 
-  if (language === "json") {
-    // String values
-    html = html.replace(
-      /(&quot;|")(.*?)(\1)/g,
-      '<span class="text-blue-600">"$2"</span>'
-    )
-    // Numbers
-    html = html.replace(
-      /:\s*(\d+\.?\d*)/g,
-      ': <span class="text-fuchsia-600">$1</span>'
-    )
-    // Brackets and punctuation
-    html = html.replace(
-      /([{}[\]:,])/g,
-      '<span class="text-zinc-500">$1</span>'
-    )
-    return html
+function highlight(code: string, language: CodeBlockProps["language"]): string {
+  // Single-pass tokenizer — collect non-overlapping tokens, then render
+  const tokens: { start: number; end: number; cls: string }[] = []
+
+  function addIfFree(start: number, length: number, cls: string) {
+    const end = start + length
+    if (!tokens.some((t) => start < t.end && end > t.start)) {
+      tokens.push({ start, end, cls })
+    }
   }
 
-  // CSS / SCSS / JavaScript
+  if (language === "json") {
+    for (const m of code.matchAll(/"(?:[^"\\]|\\.)*"/g)) {
+      addIfFree(m.index!, m[0].length, "text-blue-600")
+    }
+    for (const m of code.matchAll(/(?<=:\s*)-?\d+\.?\d*/g)) {
+      addIfFree(m.index!, m[0].length, "text-fuchsia-600")
+    }
+  } else {
+    // Comments first — highest priority
+    for (const m of code.matchAll(/\/\*[\s\S]*?\*\//g)) {
+      addIfFree(m.index!, m[0].length, "text-zinc-400")
+    }
+    for (const m of code.matchAll(/\/\/.*/g)) {
+      addIfFree(m.index!, m[0].length, "text-zinc-400")
+    }
+    // CSS properties and SCSS variables
+    for (const m of code.matchAll(/--[\w-]+/g)) {
+      addIfFree(m.index!, m[0].length, "text-blue-600")
+    }
+    for (const m of code.matchAll(/\$[\w-]+/g)) {
+      addIfFree(m.index!, m[0].length, "text-blue-600")
+    }
+    // Rem values
+    for (const m of code.matchAll(/\d+\.?\d*rem/g)) {
+      addIfFree(m.index!, m[0].length, "text-fuchsia-600")
+    }
+  }
 
-  // Block comments /* ... */
-  html = html.replace(
-    /(\/\*[\s\S]*?\*\/)/g,
-    '<span class="text-zinc-400">$1</span>'
-  )
-  // Line comments // ...
-  html = html.replace(
-    /(\/\/.*)/g,
-    '<span class="text-zinc-400">$1</span>'
-  )
+  tokens.sort((a, b) => a.start - b.start)
 
-  // CSS custom properties --...
-  html = html.replace(
-    /(--[\w-]+)/g,
-    '<span class="text-blue-600">$1</span>'
-  )
-  // SCSS variables $...
-  html = html.replace(
-    /(\$[\w-]+)/g,
-    '<span class="text-blue-600">$1</span>'
-  )
+  let result = ""
+  let cursor = 0
+  for (const token of tokens) {
+    if (token.start < cursor) continue
+    result += escapeHtml(code.slice(cursor, token.start))
+    result += `<span class="${token.cls}">${escapeHtml(code.slice(token.start, token.end))}</span>`
+    cursor = token.end
+  }
+  result += escapeHtml(code.slice(cursor))
 
-  // Values: rem values and numbers after colon
-  html = html.replace(
-    /:\s*([\d.]+rem)/g,
-    ': <span class="text-fuchsia-600">$1</span>'
-  )
-  html = html.replace(
-    /:\s*(\[?'[\d.]+rem')/g,
-    ': <span class="text-fuchsia-600">$1</span>'
-  )
-
-  // Brackets and punctuation
-  html = html.replace(
-    /([{}()[\];,])/g,
-    '<span class="text-zinc-500">$1</span>'
-  )
-
-  return html
+  return result
 }
 
 export function CodeBlock({ code, language }: CodeBlockProps) {

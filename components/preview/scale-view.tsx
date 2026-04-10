@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import type { ScaleEntry } from "@/lib/scale"
 import { parseBaseParam } from "@/lib/search-params"
 
@@ -23,12 +23,14 @@ export function ScaleView({ entries, baseParam, font }: ScaleViewProps) {
   const bases = parseBaseParam(baseParam)
   const isDualBase = bases.length > 1
   const [copiedStep, setCopiedStep] = useState<number | null>(null)
+  const copyTimeout = useRef<ReturnType<typeof setTimeout>>(null)
 
   function handleRowClick(entry: ScaleEntry) {
     const text = `${entry.rem}rem /* ${entry.px}px */`
     navigator.clipboard.writeText(text).catch(() => {})
+    if (copyTimeout.current) clearTimeout(copyTimeout.current)
     setCopiedStep(entry.step)
-    setTimeout(() => setCopiedStep(null), 1200)
+    copyTimeout.current = setTimeout(() => setCopiedStep(null), 1200)
   }
 
   return (
@@ -63,8 +65,16 @@ export function ScaleView({ entries, baseParam, font }: ScaleViewProps) {
           return (
             <div
               key={entry.step}
+              role="button"
+              tabIndex={0}
               onClick={() => handleRowClick(entry)}
-              className={`group relative grid items-baseline gap-4 py-3 cursor-pointer transition-colors border-b border-zinc-100/60 hover:bg-zinc-50/50 ${strandClass} ${
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault()
+                  handleRowClick(entry)
+                }
+              }}
+              className={`group relative grid items-baseline gap-4 py-3 cursor-pointer transition-colors border-b border-zinc-100/60 hover:bg-zinc-50/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400 ${strandClass} ${
                 isBase
                   ? "bg-zinc-50 rounded-lg px-3 -mx-3 border-b-zinc-100"
                   : ""

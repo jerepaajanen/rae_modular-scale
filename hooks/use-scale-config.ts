@@ -9,15 +9,13 @@ import type { ScaleConfig, ScaleEntry } from "@/lib/scale"
 export function useScaleConfig() {
   const [params, setParams] = useQueryStates(searchParamsParsers)
 
-  const config: ScaleConfig = useMemo(
-    () => configFromParams(params),
-    [params]
-  )
-
-  const entries: ScaleEntry[] = useMemo(
-    () => generateScale(config),
-    [config]
-  )
+  const { config, entries } = useMemo<{
+    config: ScaleConfig
+    entries: ScaleEntry[]
+  }>(() => {
+    const c = configFromParams(params)
+    return { config: c, entries: generateScale(c) }
+  }, [params.base, params.ratio, params.neg, params.pos, params.round])
 
   return {
     params,
